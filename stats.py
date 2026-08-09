@@ -3,8 +3,15 @@ def get_num_words(words):
     num_words = len(words)
     return f"Found {num_words} total words"
 
-def sort_on(items):
-    return items["count"]
+def sort_on(items:tuple[str, int]) -> int:
+    return items[1]
+
+def chars_dict_to_sorted_list(toSort: dict[str, int]) -> list[tuple[str, int]]:
+    new_list = []
+    for key in toSort:
+        new_list.append((key, toSort[key]))
+    new_list = sorted(new_list, key=sort_on, reverse=True)
+    return new_list
 
 def sort_book_by_key(char_stats):
     list_of_stats = []
@@ -16,16 +23,14 @@ def sort_book_by_key(char_stats):
     list_of_stats.sort(reverse=True, key=sort_on)
     return list_of_stats
 
-def book_char_stats(book):
-    char_stats = {}
+def get_chars_dict(text: str) -> dict[str, int]:
+    chars = {}
+    for c in text:
+        lowered = c.lower()
+        if lowered in chars:
+            chars[lowered] += 1
+        else:
+            chars[lowered] = 1
+    return chars
 
-    for word in book:
-        word = word.lower()
-        for letter in word:
-            if letter in char_stats:
-                char_stats[letter] += 1
-            else:
-                char_stats[letter] = 1
-
-    return char_stats
 

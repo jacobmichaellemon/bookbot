@@ -1,5 +1,5 @@
 import sys
-from stats import get_num_words, book_char_stats, sort_book_by_key
+from stats import get_num_words, get_chars_dict, sort_book_by_key, chars_dict_to_sorted_list
 
 def get_book_text(filepath):
     file_contents = None
@@ -15,10 +15,8 @@ def print_sorted_report(num_words, sorted_stats, book_path):
     print("--------- Character Count -------")
 
     for stat in sorted_stats:
-        temp_char = stat["char"]
-        temp_count = stat["count"]
-        if temp_char.isalpha():
-            print(f"{temp_char}: {temp_count}")
+        if stat[0].isalpha():
+            print(f"{stat}")
 
     print("============= END ===============")
     return 0
@@ -29,13 +27,13 @@ def main():
     if len(sys.argv) > 1:
         book_path = sys.argv[1]
     else:
-        print("Usage: python3 main.py <path_to_book>")
+        print("Expected usage main.py <path_to_book>")
         sys.exit(1)
 
     book = get_book_text(book_path)
     num_words = get_num_words(book)
-    stats = book_char_stats(book)
-    sorted_stats = sort_book_by_key(stats)
-    print_sorted_report(num_words, sorted_stats, book_path)
+    stats = get_chars_dict(book)
+    #sorted_stats = sort_book_by_key(stats)
+    print_sorted_report(num_words, chars_dict_to_sorted_list(stats), book_path)
 
 main()
